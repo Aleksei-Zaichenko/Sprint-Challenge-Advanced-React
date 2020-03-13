@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
+import AddPlayerForm from './components/AddPlayerForm';
 
 class App extends React.Component{
   constructor(){
@@ -23,11 +24,24 @@ class App extends React.Component{
       .catch(err => console.log(err.message));
   }
 
+  addANewPlayer = (PlayerName,country,searches) =>{
+    const newPlayer = {
+        name: PlayerName,
+        country: country,
+        searches: searches,
+        id: Date.now()
+    }
+    this.setState({
+      players: [...this.state.players,newPlayer]
+    });
+  };
+
   render(){
     console.log(this.state.players)
     return (
       <div className = "App">
         <h1>Hello Players</h1>
+        <AddPlayerForm addPlayer={this.addANewPlayer}/>
         {this.state.players.map(player => (
             <div className="player" key={player.id} >
               <h3>Name: {player.name}</h3>
